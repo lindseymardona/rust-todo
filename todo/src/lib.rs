@@ -114,13 +114,15 @@ impl Task {
     pub fn reset(conn: &Connection) -> Result<()> {
         // Delete all rows from the tasks table - no parameters are needed
         conn.execute("DELETE FROM tasks", [])?;
+        // reset the autoincrement counter for the tasks table
+        conn.execute("DELETE FROM sqlite_sequence WHERE name='tasks'", [])?;
         Ok(())
     }
 
     // Remove a task from the database
     pub fn rm(conn: &Connection, id: i32) -> Result<()> {
         // Prepare a statement to remove a task with a specific id
-        let sql = "REMOVE tasks WHERE id = ?";
+        let sql = "DELETE FROM tasks WHERE id = ?";
         let rows_affected = conn.execute(sql, [id])?;
         if rows_affected == 0 {
             println!("No task found with id: {}", id);

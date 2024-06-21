@@ -68,7 +68,7 @@ fn main() -> Result<()> {
             }
             Ok(())
         }
-        "toggle" => {
+        "mark" => {
             // If no task id is provided or the task id is not a number, print help and exit
             if args.len() < 3 || !args[2].parse::<i32>().is_ok() {
                 help()?;
